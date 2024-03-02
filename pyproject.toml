@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "learn-django-tdd"
+version = "0.1.0"
+description = "DjangoとTDDを学ぶためのリポジトリ"
+authors = ["KJR020 <johnjiro1114@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
