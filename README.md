@@ -1,7 +1,11 @@
-# Django 学習用のリポジトリ
+# TDD & Django の学習用のリポジトリ
 
+「DjangoをTDDで開発したい」と思い検索したら、
+Qiitaの記事と元ネタと思われるオライリーの本を見つけた  
 
+[Test-Driven Development with Python: Obey the Testing Goat: Using Django, Selenium, and JavaScript (English Edition) 2nd Edition](https://amzn.asia/d/bRSQcHr)
 
+これらを参考に、TDDとDjangoを学習する
 
 ## 参考
 
