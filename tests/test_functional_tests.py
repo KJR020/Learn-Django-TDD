@@ -9,5 +9,5 @@ def test_テストが実行できる():
 def test_Django開発サーバーにアクセスできる():
     browser = webdriver.Chrome()
     browser.get("http://localhost:8000")
-    assert "Django" in browser.title
+    assert "The install worked successfully! Congratulations!" in browser.title
     browser.quit()
