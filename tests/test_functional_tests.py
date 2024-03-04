@@ -15,7 +15,7 @@ def test_Django開発サーバーにアクセスできる():
     browser.get("http://localhost:8000")
 
     # She notices the page title and header mention to-do lists
-    assert "The install worked successfully! Congratulations!" in browser.title
+    assert "To-Do" in browser.title
 
     # She is invited to enter a to-do item straight away
 
