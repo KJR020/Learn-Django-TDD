@@ -17,3 +17,11 @@ class HomePageTest(TestCase):
         self.assertIn("<title>To-Do lists</title>", html)
         self.assertTrue(html.startswith("<html>"))
         self.assertTrue(html.endswith("</html>"))
+
+    def test_home_page_returns_correct_html2(self):
+        """
+        clientオブジェクトを使って、home_pageビュー関数にリクエストを送信し、レスポンスを取得する
+        responseオブジェクトのcontent属性を使わずに、assertContainsメソッドを使用
+        """
+        response = self.client.get("/")
+        self.assertContains(response, "<title>To-Do lists</title>")
