@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.edge.service import Service
 import time
 import unittest
 
@@ -8,7 +9,16 @@ import unittest
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        # WebDriverパスの指定
+        service = Service(
+            executable_path=r"C:\tools\edgedriver_win64\msedgedriver.exe", port=9515
+        )
+        options = webdriver.EdgeOptions()
+        options.add_argument("--proxy-server='direct://'")
+        options.add_argument("--proxy-bypass-list=*")
+
+        # WebDriverの初期化
+        self.browser = webdriver.Edge(service=service, options=options)
 
     def tearDown(self):
         self.browser.quit()
@@ -43,18 +53,20 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        table = self.browser.find_element(By.ID, "id_list_table")
-        rows = self.browser.find_elements(By.TAG_NAME, "tr")
-        self.assertTrue(
-            any(row.text == "1: But peacock feathers" for row in rows),
-            "New to-do item did not appear in table",
-        )
-
         # There is still a text box inviting her to add another item. She
         # enters "Use peacock feathers to make a fly" (Edith is very methodical)
-        self.fail("Finish the test!")
+        inputbox = self.browser.find_element(By.ID, "id_new_item")
+        inputbox.send_keys("Use peacock feathers to make a fly")
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # The page updates again, and now shows both items on her list
+        table = self.browser.find_element(By.ID, "id_list_table")
+        rows = self.browser.find_elements(By.TAG_NAME, "tr")
+        self.assertIn("1: Buy peacock feathers", [row.text for row in rows])
+        self.assertIn("2: Use peacock feathers to make a fly", [row.text for row in rows])
+
+        self.fail("Finish the test!")
 
         # Edith wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
