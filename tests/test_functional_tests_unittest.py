@@ -9,13 +9,7 @@ import unittest
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
-        # WebDriverパスの指定
-        service = Service(
-            executable_path=r"C:\tools\edgedriver_win64\msedgedriver.exe", port=9515
-        )
-        options = webdriver.EdgeOptions()
-        options.add_argument("--proxy-server='direct://'")
-        options.add_argument("--proxy-bypass-list=*")
+        self.browser = webdriver.Firefox()
 
         # WebDriverの初期化
         self.browser = webdriver.Edge(service=service, options=options)
