@@ -11,11 +11,24 @@ class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
 
-        # WebDriverの初期化
-        self.browser = webdriver.Edge(service=service, options=options)
+        # # WebDriverパスの指定
+        # service = Service(
+        #     executable_path=r"C:\tools\edgedriver_win64\msedgedriver.exe", port=9515
+        # )
+        # options = webdriver.EdgeOptions()
+        # options.add_argument("--proxy-server='direct://'")
+        # options.add_argument("--proxy-bypass-list=*")
+
+        # # WebDriverの初期化
+        # self.browser = webdriver.Edge(service=service, options=options)
 
     def tearDown(self):
         self.browser.quit()
+
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element(By.ID, "id_list_table")
+        rows = table.find_elements(By.TAG_NAME, "tr")
+        self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         """
@@ -55,10 +68,8 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         # The page updates again, and now shows both items on her list
-        table = self.browser.find_element(By.ID, "id_list_table")
-        rows = self.browser.find_elements(By.TAG_NAME, "tr")
-        self.assertIn("1: Buy peacock feathers", [row.text for row in rows])
-        self.assertIn("2: Use peacock feathers to make a fly", [row.text for row in rows])
+        self.check_for_row_in_list_table("1: Buy peacock feathers")
+        self.check_for_row_in_list_table("2: Use peacock feathers to make a fly")
 
         self.fail("Finish the test!")
 
