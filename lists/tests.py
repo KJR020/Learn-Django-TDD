@@ -29,10 +29,28 @@ class ItemModelTest(TestCase):
         second_item.text = "Item the second"
         second_item.save()
 
-        saved_item = Item.objects.all()
-        self.assertEqual(save_item.count(), 2)
+        saved_items = Item.objects.all()
+        self.assertEqual(saved_items.count(), 2)
 
         first_saved_item = saved_items[0]
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, "The first (ever) list item")
         self.assertEqual(second_saved_item.text, "Item the second")
+
+    def test_can_save_a_POST_request(self):
+        response = self.client.post("/", data={"item_text": "A new list item"})
+
+        self.assertEqual(
+            Item.objects.count(), 1
+        )  # Check if the item is saved in the database
+        new_item = Item.objects.first()
+        self.assertEqual(
+            new_item.text, "A new list item"
+        )  # Check if the item is saved correctly
+
+        self.assertContains(
+            response, "A new list item"
+        )  # Check if the item is displayed in the response
+        self.assertTemplateUsed(
+            response, "home.html"
+        )  # Check if the home.html template is used
